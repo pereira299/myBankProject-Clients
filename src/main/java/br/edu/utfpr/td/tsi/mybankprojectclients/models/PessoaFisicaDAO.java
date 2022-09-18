@@ -1,62 +1,68 @@
 package br.edu.utfpr.td.tsi.mybankprojectclients.models;
 
 import br.edu.utfpr.td.tsi.mybankprojectclients.domains.PessoaFisica;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
 
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class PessoaFisicaDAO implements ApplicationRunner {
-    private final IPessoaFisicaDAO repository;
+@Component
+public class PessoaFisicaDAO implements IPessoaFisicaDAO {
 
-    public PessoaFisicaDAO(IPessoaFisicaDAO repository) {
-        this.repository = repository;
+    private final ArrayList<PessoaFisica> lista;
+    private int nextId = 0;
+
+    public PessoaFisicaDAO() {
+        this.lista = new ArrayList<>();
     }
 
     @Override
-    public void criar(PessoaFisica pessoa) {
-        this.repository.save(pessoa);
+    public PessoaFisica criar(PessoaFisica pessoa) {
+        pessoa.setId(this.nextId);
+        this.lista.add(pessoa);
+        nextId++;
+        return pessoa;
     }
 
-    public Optional<PessoaFisica> atualizar(int id, PessoaFisica pessoa) {
-        Optional<PessoaFisica> p;
-        try{
-            p = this.repository.findById(id)
-
-            return p;
-        }catch (NoSuchElementException e){
-            return null;
-        }
-    }
-
-    @Override
-    public void buscar() {
-
+    public void atualizar(int id, PessoaFisica pessoa) {
+        this.lista.stream()
+                .filter(pf -> pf.getId() == id)
+                .forEach(pf -> {
+                    pf.setEndereco(pessoa.getEndereco() != null ? pessoa.getEndereco() : pf.getEndereco());
+                    pf.setNome(pessoa.getNome() != null ? pessoa.getNome() : pf.getNome());
+                    pf.setNasc(pessoa.getNasc() != null ? pessoa.getNasc() : pf.getNasc());
+                });
     }
 
     @Override
-    public void buscar(int id) {
-
+    public ArrayList<PessoaFisica> buscar() {
+        return this.lista;
     }
 
     @Override
-    public void buscar(String name) {
-
+    public List<PessoaFisica> buscar(int id) {
+        return this.lista.stream()
+                .filter(pf -> pf.getId() == id)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public void buscarPorCpf(String cpf) {
+    public List<PessoaFisica> buscar(String name) {
+        return this.lista.stream()
+                .filter(pf -> pf.getNome().equals(name))
+                .collect(Collectors.toList());
+    }
 
+    @Override
+    public List<PessoaFisica> buscarPorCpf(String cpf) {
+        return this.lista.stream()
+                .filter(pf -> pf.getCpf().equals(cpf))
+                .collect(Collectors.toList());
     }
 
     @Override
     public void remover(int id) {
-
-    }
-
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
-
+        this.lista.removeIf(pf -> pf.getId() == id);
     }
 }

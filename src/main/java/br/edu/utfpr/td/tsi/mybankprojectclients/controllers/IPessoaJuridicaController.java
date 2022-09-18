@@ -1,16 +1,16 @@
-package br.edu.utfpr.td.tsi.mybankprojectclients.models;
+package br.edu.utfpr.td.tsi.mybankprojectclients.controllers;
 
 import br.edu.utfpr.td.tsi.mybankprojectclients.domains.PessoaJuridica;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public interface IPessoaJuridicaDAO {
+public interface IPessoaJuridicaController {
+
     PessoaJuridica criar(PessoaJuridica pessoa);
-    void atualizar(int id, PessoaJuridica pessoa);
-    ArrayList<PessoaJuridica> buscar();
+    int atualizar(int id, PessoaJuridica pessoa);
+    int remover(int id);
+    List<PessoaJuridica> buscar();
     List<PessoaJuridica> buscar(int id);
     List<PessoaJuridica> buscar(String name);
     List<PessoaJuridica> buscarPorCnpj(String cnpj);
-    void remover(int id);
 }

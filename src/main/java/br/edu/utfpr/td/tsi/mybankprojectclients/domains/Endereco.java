@@ -1,34 +1,15 @@
 package br.edu.utfpr.td.tsi.mybankprojectclients.domains;
 
-import javax.persistence.*;
 
-@Entity
-@Table(name = "Endereco")
 public class Endereco {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private String logradouro;
+    private String bairro;
+    private int num;
+    private String cidade;
+    private String estado;
+    private String complemento;
 
-    @Column()
-    String logradouro;
-
-    @Column()
-    String bairro;
-
-    @Column()
-    int num;
-
-    @Column()
-    String cidade;
-
-    @Column()
-    String estado;
-
-    @Column()
-    String complemento;
-
-    public Endereco(int id, String logradouro, String bairro, int num, String cidade, String estado, String complemento) {
-        this.id = id;
+    public Endereco(String logradouro, String bairro, int num, String cidade, String estado, String complemento) {
         this.logradouro = logradouro;
         this.bairro = bairro;
         this.num = num;
@@ -37,11 +18,8 @@ public class Endereco {
         this.complemento = complemento;
     }
 
-    @Deprecated
-    public Endereco() {}
 
     //Getters
-    public int getId() {return id;}
     public String getLogradouro() {return logradouro;}
     public String getBairro() {return bairro;}
     public int getNum() {return num;}
@@ -50,7 +28,6 @@ public class Endereco {
     public String getComplemento() {return complemento;}
 
     //Setters
-    public void setId(int id) {this.id = id;}
     public void setLogradouro(String logradouro) {this.logradouro = logradouro;}
     public void setBairro(String bairro) {this.bairro = bairro;}
     public void setNum(int num) {this.num = num;}
