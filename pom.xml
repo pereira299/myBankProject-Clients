@@ -10,7 +10,7 @@
     </parent>
     <groupId>br.edu.utfpr.td.tsi</groupId>
     <artifactId>myBankProject-Clients</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>myBankProject-Clients</name>
     <description>myBankProject-Clients</description>
     <properties>
