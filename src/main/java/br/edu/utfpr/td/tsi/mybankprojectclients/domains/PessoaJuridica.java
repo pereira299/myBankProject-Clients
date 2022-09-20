@@ -12,7 +12,6 @@ public class PessoaJuridica extends Cliente {
         this.fantasia = fantasia;
     }
 
-
     //Getters
     public String getCnpj() {return cnpj;}
     public String getFantasia() {return fantasia;}

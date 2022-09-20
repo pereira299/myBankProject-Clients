@@ -12,11 +12,10 @@ import java.util.List;
 
 @Component
 public class PessoaFisicaController implements IPessoaFisicaController {
-
-
     private final IPessoaFisicaDAO pessoaFisicaDAO;
-    public PessoaFisicaController() {
-        this.pessoaFisicaDAO = new PessoaFisicaDAO();
+
+    public PessoaFisicaController(IPessoaFisicaDAO pessoaFisicaDAO) {
+        this.pessoaFisicaDAO = pessoaFisicaDAO;
     }
 
     public PessoaFisica criar(PessoaFisica pessoa) {

@@ -3,7 +3,6 @@ package br.edu.utfpr.td.tsi.mybankprojectclients.controllers;
 import br.edu.utfpr.td.tsi.mybankprojectclients.domains.Endereco;
 import br.edu.utfpr.td.tsi.mybankprojectclients.domains.PessoaJuridica;
 import br.edu.utfpr.td.tsi.mybankprojectclients.models.IPessoaJuridicaDAO;
-import br.edu.utfpr.td.tsi.mybankprojectclients.models.PessoaJuridicaDAO;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -12,12 +11,10 @@ import java.util.List;
 
 @Component
 public class PessoaJuridicaController implements IPessoaJuridicaController {
-
-
     private final IPessoaJuridicaDAO pessoaJuridicaDAO;
 
-    public PessoaJuridicaController() {
-        this.pessoaJuridicaDAO = new PessoaJuridicaDAO();
+    public PessoaJuridicaController(IPessoaJuridicaDAO pessoaJuridicaDAO) {
+        this.pessoaJuridicaDAO = pessoaJuridicaDAO;
     }
 
     public PessoaJuridica criar(PessoaJuridica pessoa) {

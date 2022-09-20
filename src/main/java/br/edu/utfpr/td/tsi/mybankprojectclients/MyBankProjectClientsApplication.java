@@ -5,6 +5,8 @@ import br.edu.utfpr.td.tsi.mybankprojectclients.controllers.PessoaJuridicaContro
 import br.edu.utfpr.td.tsi.mybankprojectclients.domains.Endereco;
 import br.edu.utfpr.td.tsi.mybankprojectclients.domains.PessoaFisica;
 import br.edu.utfpr.td.tsi.mybankprojectclients.domains.PessoaJuridica;
+import br.edu.utfpr.td.tsi.mybankprojectclients.models.PessoaFisicaDAO;
+import br.edu.utfpr.td.tsi.mybankprojectclients.models.PessoaJuridicaDAO;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -13,9 +15,10 @@ import java.util.Calendar;
 
 @SpringBootApplication
 public class MyBankProjectClientsApplication {
-
-    private final PessoaJuridicaController pessoaJuridica = new PessoaJuridicaController();
-    private final PessoaFisicaController pessoaFisica = new PessoaFisicaController();
+    private final PessoaJuridicaDAO pessoaJuridicaDAO = new PessoaJuridicaDAO();
+    private final PessoaFisicaDAO pessoaFisicaDAO = new PessoaFisicaDAO();
+    private final PessoaJuridicaController pessoaJuridica = new PessoaJuridicaController(pessoaJuridicaDAO);
+    private final PessoaFisicaController pessoaFisica = new PessoaFisicaController(pessoaFisicaDAO);
 
     public static void main(String[] args) {
         SpringApplication.run(MyBankProjectClientsApplication.class, args);

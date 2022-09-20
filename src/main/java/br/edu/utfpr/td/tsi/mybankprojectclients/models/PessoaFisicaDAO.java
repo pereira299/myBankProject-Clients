@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class PessoaFisicaDAO implements IPessoaFisicaDAO {
-
     private final ArrayList<PessoaFisica> lista;
     private int nextId = 0;
 
@@ -25,6 +24,7 @@ public class PessoaFisicaDAO implements IPessoaFisicaDAO {
         return pessoa;
     }
 
+    @Override
     public void atualizar(int id, PessoaFisica pessoa) {
         this.lista.stream()
                 .filter(pf -> pf.getId() == id)
