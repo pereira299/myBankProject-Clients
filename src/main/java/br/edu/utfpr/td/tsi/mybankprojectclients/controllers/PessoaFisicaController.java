@@ -3,7 +3,7 @@ package br.edu.utfpr.td.tsi.mybankprojectclients.controllers;
 import br.edu.utfpr.td.tsi.mybankprojectclients.domains.Endereco;
 import br.edu.utfpr.td.tsi.mybankprojectclients.domains.PessoaFisica;
 import br.edu.utfpr.td.tsi.mybankprojectclients.models.IPessoaFisicaDAO;
-import br.edu.utfpr.td.tsi.mybankprojectclients.models.PessoaFisicaDAO;
+import br.edu.utfpr.td.tsi.mybankprojectclients.utils.InternalErrorException;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -18,114 +18,125 @@ public class PessoaFisicaController implements IPessoaFisicaController {
         this.pessoaFisicaDAO = pessoaFisicaDAO;
     }
 
-    public PessoaFisica criar(PessoaFisica pessoa) {
+    public PessoaFisica criar(PessoaFisica pessoa) throws InternalErrorException {
         //Verifica se o CPF é válido
         if(!pessoa.getCpf().matches("[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}")) {
-            System.out.println("CPF inválido");
-            return null;
+            throw new IllegalArgumentException("CPF inválido");
         }
         //Verifica se o CPF já existe
         if(this.pessoaFisicaDAO.buscarPorCpf(pessoa.getCpf()).size() > 0) {
-            System.out.println("CPF já cadastrado");
-            return null;
+            throw new IllegalArgumentException("CPF já cadastrado");
         }
         //Verifica se o endereço é válido
         Endereco endereco = pessoa.getEndereco();
         if(endereco == null) {
-            System.out.println("Endereço inválido");
-            return null;
+            throw new IllegalArgumentException("Endereço inválido");
         }else {
             if(endereco.getBairro() == null || endereco.getBairro().isEmpty()) {
-                System.out.println("Bairro inválido");
-                return null;
+                throw new IllegalArgumentException("Bairro inválido");
             } else if (endereco.getNum() <= 0) {
-                System.out.println("CEP inválido");
-                return null;
+                throw new IllegalArgumentException("Número inválido");
             } else if (endereco.getCidade() == null || endereco.getCidade().isEmpty()) {
-                System.out.println("Cidade inválida");
-                return null;
+                throw new IllegalArgumentException("Cidade inválida");
             } else if (endereco.getEstado() == null || endereco.getEstado().isEmpty()) {
-                System.out.println("Estado inválido");
-                return null;
+                throw new IllegalArgumentException("Estado inválido");
             } else if (endereco.getLogradouro() == null || endereco.getLogradouro().isEmpty()) {
-                System.out.println("Rua inválida");
-                return null;
+                throw new IllegalArgumentException("Logradouro inválido");
             }
         }
         //Verifica se a data de nascimento é válida
         if(pessoa.getNasc() == null) {
-            System.out.println("Data de nascimento inválida");
-            return null;
+            throw new IllegalArgumentException("Data de nascimento inválida");
         }
         //Verifica se possui mais de 18 anos
         Calendar now = Calendar.getInstance();
         int daysIn18Years = 365 * 18;
         if(Duration.between(pessoa.getNasc().toInstant(), now.toInstant()).toDays() < daysIn18Years) {
-            System.out.println("Cliente deve ter mais de 18 anos");
-            return null;
+            throw new IllegalArgumentException("Cliente deve ter mais de 18 anos");
         }
         //Verifica se o nome é válido
         if(pessoa.getNome() == null || pessoa.getNome().isEmpty()) {
-            System.out.println("Nome inválido");
-            return null;
+            throw new IllegalArgumentException("Nome inválido");
         }
         //Verifica se o sexo é válido
         if(pessoa.getSexo() != 'M' && pessoa.getSexo() != 'F') {
-            System.out.println("Sexo inválido");
-            return null;
+            throw new IllegalArgumentException("Sexo inválido");
         }
 
         //Salva no banco
-        return this.pessoaFisicaDAO.criar(pessoa);
+        try{
+            return this.pessoaFisicaDAO.criar(pessoa);
+        }catch (InternalErrorException e) {
+            throw e;
+        }
     }
 
-    public int atualizar(int id, PessoaFisica pessoa) {
+    public int atualizar(int id, PessoaFisica pessoa) throws InternalErrorException {
         if(id <= 0) {
-            System.out.println("ID inválido");
-            return -1;
+            throw new IllegalArgumentException("ID inválido");
         }
         if(pessoa == null) {
-            System.out.println("Pessoa inválida");
-            return -1;
+            throw new IllegalArgumentException("Pessoa inválida");
         }
-        this.pessoaFisicaDAO.atualizar(id, pessoa);
-        return id;
+        try{
+            this.pessoaFisicaDAO.atualizar(id, pessoa);
+            return id;
+        }catch (InternalErrorException e) {
+            throw e;
+        }
     }
 
-    public List<PessoaFisica> buscar() {
-        return this.pessoaFisicaDAO.buscar();
+    public List<PessoaFisica> buscar() throws InternalErrorException {
+        try{
+            return this.pessoaFisicaDAO.buscar();
+        }catch (InternalErrorException e) {
+            throw e;
+        }
     }
 
-    public List<PessoaFisica> buscar(int id) {
+    public List<PessoaFisica> buscar(int id) throws InternalErrorException {
         if(id <= 0) {
-            System.out.println("ID inválido");
-            return null;
+            throw new IllegalArgumentException("ID inválido");
         }
-        return this.pessoaFisicaDAO.buscar(id);
+        try{
+            return this.pessoaFisicaDAO.buscar(id);
+        }catch (InternalErrorException e) {
+            throw e;
+        }
     }
 
-    public List<PessoaFisica> buscar(String nome) {
+    public List<PessoaFisica> buscar(String nome) throws InternalErrorException {
+
         if(nome == null || nome.isEmpty()) {
-            System.out.println("Nome inválido");
-            return null;
+            throw new IllegalArgumentException("Nome inválido");
         }
-        return this.pessoaFisicaDAO.buscar(nome);
+        try{
+            return this.pessoaFisicaDAO.buscar(nome);
+        }catch (InternalErrorException e) {
+            throw e;
+        }
     }
 
-    public List<PessoaFisica> buscarPorCpf(String cpf) {
+    public List<PessoaFisica> buscarPorCpf(String cpf) throws InternalErrorException {
         if(cpf == null || cpf.isEmpty()) {
-            System.out.println("CPF inválido");
-            return null;
+            throw new IllegalArgumentException("CPF inválido");
         }
-        return this.pessoaFisicaDAO.buscarPorCpf(cpf);
+        try{
+            return this.pessoaFisicaDAO.buscarPorCpf(cpf);
+        }catch (InternalErrorException e) {
+            throw e;
+        }
     }
-    public int remover(int id) {
+    public int remover(int id) throws InternalErrorException {
         if(id <= 0) {
-            System.out.println("ID inválido");
-            return -1;
+            throw new IllegalArgumentException("ID inválido");
         }
-        this.pessoaFisicaDAO.remover(id);
-        return id;
+        try{
+            this.pessoaFisicaDAO.remover(id);
+            return id;
+        }catch (InternalErrorException e) {
+            throw e;
+        }
     }
 
 }
