@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class PessoaJuridicaDAO implements IPessoaJuridicaDAO{
 
     private final ArrayList<PessoaJuridica> lista;
-    private int nextId = 0;
+    private static int nextId = 1;
 
     public PessoaJuridicaDAO() {
         this.lista = new ArrayList<>();

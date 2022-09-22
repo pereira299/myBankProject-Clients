@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Component
 public class PessoaFisicaDAO implements IPessoaFisicaDAO{
     private final List<PessoaFisica> lista;
-    private int nextId = 0;
+    private static int nextId = 1;
 
     public PessoaFisicaDAO(){
         this.lista = new ArrayList<>();
@@ -20,11 +20,10 @@ public class PessoaFisicaDAO implements IPessoaFisicaDAO{
     @Override
     public PessoaFisica criar(PessoaFisica pessoa) throws InternalErrorException {
         try{
-
-        pessoa.setId(this.nextId);
-        this.lista.add(pessoa);
-        nextId++;
-        return pessoa;
+            pessoa.setId(this.nextId);
+            this.lista.add(pessoa);
+            nextId++;
+            return pessoa;
         }catch(Exception e){
             System.out.println(e);
             throw new InternalErrorException("Erro ao criar pessoa fisica");
