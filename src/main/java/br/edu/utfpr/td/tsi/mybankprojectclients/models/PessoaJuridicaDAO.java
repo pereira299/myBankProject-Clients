@@ -11,12 +11,8 @@ import java.util.stream.Collectors;
 @Component
 public class PessoaJuridicaDAO implements IPessoaJuridicaDAO{
 
-    private final ArrayList<PessoaJuridica> lista;
+    private static ArrayList<PessoaJuridica> lista = new ArrayList<>();
     private static int nextId = 1;
-
-    public PessoaJuridicaDAO() {
-        this.lista = new ArrayList<>();
-    }
 
     @Override
     public PessoaJuridica criar(PessoaJuridica pessoa) throws InternalErrorException{
